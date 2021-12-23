@@ -12,6 +12,8 @@
 #loops, iteration, randomizing, instantiation, input
 
 #make computer choices method
+#make player choices method
+#make play game method
 
 
 class RockPaperScissorsGame
