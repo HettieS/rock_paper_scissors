@@ -24,6 +24,8 @@ class RockPaperScissorsGame
         @rock = "Rock"
         @scissors = "Scissors"
         @paper = "Paper"
+        @input = input
+        @computer_choice = computer_choice
     end
 
     def see_scores
@@ -38,48 +40,47 @@ class RockPaperScissorsGame
 
     def get_player_name
         puts "Enter player name"
-        name = gets.chomp
+        name = gets.chomp.capitalize
         puts "Player name is #{name}"
     end
 
-    def update_player_score_by_one
-        your_score += 1
-    end
-
-    def update_computer_score_by_one
-        computer_score += 1
-    end
-
-    def take_go
-        loop do 
+    def get_player_input
+        loop do
             puts "Rock, paper or scissors?"
-            input = gets.chomp.capitalize
-            if (input != @rock) && (input != @paper) && (input != @scissors)
-                puts "That's not a valid input"
+            @input = gets.chomp.capitalize
+            if (@input != @rock) && (@input != @paper) && (@input != @scissors)
+                puts "That's not a valid input, try again!"
                 next #skip this iteration and go back round again
-            end
-            computer_choice = ["rock", "paper", "scissors"].sample
-            puts "Computer throws #{computer_choice}"
-            if input == computer_choice
-                puts "Draw!"
-            elsif input == "Rock" && computer_choice == "scissors"
-                puts "You win!"
-                @your_score += 1
-            elsif input == "Paper" && computer_choice == "rock"
-                puts "You win!"
-                @your_score += 1
-            elsif input == "Scissors" && computer_choice == "paper"
-                puts "You win!"
-                @your_score += 1
             else
-                puts "You lose!"
-                @computer_score +=1
-            end
-            see_scores
-            if @your_score == 3 || @computer_score == 3
-                break # completely breaks the loop
+                break
             end
         end
+    end
+
+    def get_computer_input
+        @computer_choice = ["rock", "paper", "scissors"].sample
+        puts "Computer throws #{@computer_choice}"
+    end
+
+    def update_scores
+        if @input.downcase == @computer_choice
+            puts "Draw!"
+        elsif @input == "Rock" && @computer_choice == "scissors"
+            puts "You win!"
+            @your_score += 1
+        elsif @input == "Paper" && @computer_choice == "rock"
+            puts "You win!"
+            @your_score += 1
+        elsif @input == "Scissors" && @computer_choice == "paper"
+            puts "You win!"
+            @your_score += 1
+        else
+            puts "You lose!"
+            @computer_score +=1
+        end
+    end
+
+    def announce_winner
         if @your_score == 3
             puts "Congratulations, you won!"
         else
@@ -87,12 +88,22 @@ class RockPaperScissorsGame
         end
     end
 
-
-    
+    def play_game
+        loop do 
+            get_player_input
+            get_computer_input
+            update_scores
+            see_scores
+            if @your_score == 3 || @computer_score == 3
+                break # completely breaks the loop
+            end
+        end
+        announce_winner
+    end
 
 end
 
 game = RockPaperScissorsGame.new
 
 game.get_player_name
-game.take_go
+game.play_game
