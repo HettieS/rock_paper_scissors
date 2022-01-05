@@ -65,13 +65,7 @@ class RockPaperScissorsGame
     def update_scores
         if @input.downcase == @computer_choice
             puts "Draw!"
-        elsif @input == "Rock" && @computer_choice == "scissors"
-            puts "You win!"
-            @your_score += 1
-        elsif @input == "Paper" && @computer_choice == "rock"
-            puts "You win!"
-            @your_score += 1
-        elsif @input == "Scissors" && @computer_choice == "paper"
+        elsif (@input == "Rock" && @computer_choice == "scissors") || (@input == "Paper" && @computer_choice == "rock") || (@input == "Scissors" && @computer_choice == "paper")
             puts "You win!"
             @your_score += 1
         else
